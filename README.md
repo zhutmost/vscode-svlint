@@ -14,6 +14,10 @@
 - [svlint](https://github.com/dalance/svlint), an open-sourced linter for SystemVerilog, must be installed in your `PATH` environment variable.
 - Custom your linting rule file `.svlint.toml`, and put it to the repository root or set a environment variable `SVLINT_CONFIG`.
 
+*Important:* If no configuration is found, the default behavior is to enable all rules, which is certain to show failures because some rules conflict, e.g. `keyword_forbidden_generate` and `keyword_required_generate`.
+
+An example rule file is provided on my GitHub Gist ([link](https://gist.githubusercontent.com/zhutmost/ee489d0a0b9322743bcfbfd5d85662a4/raw/.svlint.toml)). You can save this file as `/path/to/your/repo/.svlint.toml`.
+
 ### Configurations
 
 By default, the linter `svlint` is invoked as follows:
@@ -22,19 +26,27 @@ svlint -1 $file
 ```
 where `$file` is the RTL file currently opened in the editor.
 
-You can edit `linter.linters.svlint.command` in your VSCode setting file `settings.json`:
+You can edit `svlint.linters.svlint.command` in your VSCode setting file `settings.json`:
 ```json
-"linter.linters": {
+"svlint.linters": {
     "svlint": {
-        "command": [
-            "svlint",
-            "-1",
-            "$file"
-        ],
+        "command": [ "svlint", "-1", "$file" ],
         // ...
     }
 }
 ```
+
+For example, if you want to force `svlint` to use `abc.toml` as its configuration file, you can:
+```json
+"svlint.linters": {
+    "svlint": {
+        "command": [ "svlint", "-1", "--config", "/path/to/abc.toml", "$file" ],
+        // ...
+    }
+}
+```
+
+For more `svlint` usage, please read [its maunal](https://github.com/dalance/svlint/blob/master/MANUAL.md).
 
 ## Inspiration & Contribution
 

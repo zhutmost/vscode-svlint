@@ -6,9 +6,9 @@ import { Linters, Config } from "../types";
 import { debug } from "./debug";
 
 const defaultLinters: Linters = vscode.workspace
-  .getConfiguration("linter")
+  .getConfiguration("svlint")
   .inspect("linters")?.defaultValue as Linters;
-const config = vscode.workspace.getConfiguration("linter") as unknown as Config;
+const config = vscode.workspace.getConfiguration("svlint") as unknown as Config;
 const customExtensions = vscode.extensions.all.filter((extension) =>
   extension.id.match(/\.linter-(.+)$/),
 );
@@ -24,14 +24,13 @@ const customLinters = customExtensions.reduce((buffer, extension) => {
     ) as unknown as string,
   );
 
-  if (!packageJson.extensionDependencies?.includes("fnando.linter")) {
-    debug(
-      extension.id,
-      "doesn't have a dependency on fnando.linter, so skipping.",
-    );
-
-    return buffer;
-  }
+  // if (!packageJson.extensionDependencies?.includes("fnando.linter")) {
+  //   debug(
+  //     extension.id,
+  //     "doesn't have a dependency on fnando.linter, so skipping.",
+  //   );
+  //   return buffer;
+  // }
 
   buffer[linterName] = {
     ...(workspaceConfig.inspect("config")?.defaultValue as LinterConfig),
