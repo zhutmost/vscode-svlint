@@ -4,10 +4,18 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+dependencies:
+  lodash:
+    specifier: ^4.17.21
+    version: 4.17.21
+
 devDependencies:
   '@types/glob':
     specifier: ^8.1.0
     version: 8.1.0
+  '@types/lodash':
+    specifier: ^4.14.195
+    version: 4.14.195
   '@types/mocha':
     specifier: ^10.0.1
     version: 10.0.1
@@ -41,6 +49,9 @@ devDependencies:
   typescript:
     specifier: ^5.1.3
     version: 5.1.3
+  vscode-linter-api:
+    specifier: github:fnando/vscode-linter-api
+    version: github.com/fnando/vscode-linter-api/fd74754182547d5191d13a4229183448fc5e0088
   webpack:
     specifier: ^5.85.0
     version: 5.85.0(webpack-cli@5.1.1)
@@ -211,6 +222,10 @@ packages:
 
   /@types/json-schema@7.0.12:
     resolution: {integrity: sha512-Hr5Jfhc9eYOQNPYO5WLDq/n4jqijdHNlDXjuAQkkt+mWdQR+XJToOHrsD4cPaMXpn6KO7y2+wM8AZEs8VpBLVA==}
+    dev: true
+
+  /@types/lodash@4.14.195:
+    resolution: {integrity: sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg==}
     dev: true
 
   /@types/minimatch@5.1.2:
@@ -1363,6 +1378,10 @@ packages:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
     dev: true
 
+  /lodash@4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+    dev: false
+
   /log-symbols@4.1.0:
     resolution: {integrity: sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg==}
     engines: {node: '>=10'}
@@ -2097,4 +2116,10 @@ packages:
   /yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+    dev: true
+
+  github.com/fnando/vscode-linter-api/fd74754182547d5191d13a4229183448fc5e0088:
+    resolution: {tarball: https://codeload.github.com/fnando/vscode-linter-api/tar.gz/fd74754182547d5191d13a4229183448fc5e0088}
+    name: vscode-linter-api
+    version: 0.0.0-beta5
     dev: true

@@ -1,26 +1,97 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
+import { debounce } from "lodash";
+import { LinterOffense } from "vscode-linter-api";
+import { CodeActionProvider } from "./CodeActionProvider";
+import { run, fix, fixInline, ignore } from "./linters/run";
+import { getEditor } from "./helpers/getEditor";
+import { getConfig } from "./helpers/config";
+import { debug } from "./helpers/debug";
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+  const config = getConfig();
+  const runFix = debounce(fix, 200);
+  const runIgnore = debounce(ignore, 200);
+  const { subscriptions } = context;
+  const offenses: LinterOffense[] = [];
+  const diagnostics = vscode.languages.createDiagnosticCollection("linter");
+  const codeActionProvider = new CodeActionProvider(diagnostics, offenses);
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "vscode-svlint" is now active!');
+  debug("onchange delay:", config.delay);
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('vscode-svlint.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from vscode-svlint!');
-	});
+  const handleDocument = debounce((document: vscode.TextDocument) => {
+    run(document, diagnostics, offenses);
+    document.getText();
+  }, config.delay);
 
-	context.subscriptions.push(disposable);
+  // Diagnostics code ----------------------------------------------------------
+  if (vscode.window.activeTextEditor) {
+    run(vscode.window.activeTextEditor.document, diagnostics, offenses);
+  }
+
+  subscriptions.push(
+    vscode.window.onDidChangeActiveTextEditor((editor) => {
+      diagnostics.clear();
+      editor?.document && run(editor.document, diagnostics, offenses);
+    }),
+  );
+
+  if (config.runOnTextChange) {
+    debug("running linters on change is enabled");
+    subscriptions.push(
+      vscode.workspace.onDidChangeTextDocument(({ document }) =>
+        handleDocument(document),
+      ),
+    );
+  } else {
+    debug("running linters on change is disabled");
+    subscriptions.push(vscode.workspace.onDidSaveTextDocument(handleDocument));
+  }
+
+  // CodeAction code -----------------------------------------------------------
+  subscriptions.push(
+    vscode.languages.registerCodeActionsProvider("*", codeActionProvider),
+  );
+
+  subscriptions.push(
+    vscode.commands.registerCommand(
+      "linter.fix",
+      (offense: LinterOffense, type: string) => {
+        const editor = getEditor(offense.uri);
+
+        if (editor) {
+          runFix(offense, editor, type);
+        }
+      },
+    ),
+  );
+
+  subscriptions.push(
+    vscode.commands.registerCommand(
+      "linter.fixInline",
+      (offense: LinterOffense) => {
+        const editor = getEditor(offense.uri);
+
+        if (editor) {
+          fixInline(offense, editor);
+        }
+      },
+    ),
+  );
+
+  subscriptions.push(
+    vscode.commands.registerCommand("linter.openUrl", (url: string) => {
+      vscode.env.openExternal(vscode.Uri.parse(url));
+    }),
+  );
+
+  subscriptions.push(
+    vscode.commands.registerCommand(
+      "linter.ignoreOffense",
+      (offense: LinterOffense, type: string) => {
+        runIgnore(offense, type);
+      },
+    ),
+  );
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() {}
