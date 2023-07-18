@@ -2,8 +2,8 @@
   "name": "vscode-svlint",
   "displayName": "SystemVerilog Linter by zhutmost",
   "description": "Lint SystemVerilog by SvLint",
-  "version": "0.0.1",
-  "icon": "icon.png",
+  "version": "0.0.2",
+  "icon": "img/icon.png",
   "engines": {
     "vscode": "^1.54.0"
   },
@@ -62,7 +62,7 @@
                 "systemverilog"
               ],
               "name": "svlint",
-              "url": "https://eslint.org"
+              "url": "https://github.com/dalance/svlint/blob/master/MANUAL.md"
             }
           },
           "description": "The list of linters",
