@@ -2,7 +2,7 @@
   "name": "vscode-svlint",
   "displayName": "SystemVerilog Linter by zhutmost",
   "description": "Lint SystemVerilog by SvLint",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "icon": "img/icon.png",
   "engines": {
     "vscode": "^1.54.0"
