@@ -5,7 +5,7 @@
 
 </div>
 
-<img alt="vscode-svlint screenshot" src="./img/screenshot.jpg" width="100%" height="100%">
+<img alt="vscode-svlint screenshot" src="https://github.com/zhutmost/vscode-svlint/raw/main/img/screenshot.jpg" width="100%" height="100%">
 
 ## Installation & Setup
 
@@ -27,21 +27,21 @@ svlint -1 $file
 where `$file` is the RTL file currently opened in the editor.
 
 You can edit `svlint.linters.svlint.command` in your VSCode setting file `settings.json`:
-```json
+```toml
 "svlint.linters": {
     "svlint": {
         "command": [ "svlint", "-1", "$file" ],
-        // ...
+        ...
     }
 }
 ```
 
 For example, if you want to force `svlint` to use `abc.toml` as its configuration file, you can:
-```json
+```toml
 "svlint.linters": {
     "svlint": {
         "command": [ "svlint", "-1", "--config", "/path/to/abc.toml", "$file" ],
-        // ...
+        ...
     }
 }
 ```
