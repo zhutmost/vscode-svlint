@@ -46,7 +46,34 @@ For example, if you want to force `svlint` to use `abc.toml` as its configuratio
 }
 ```
 
-For more `svlint` usage, please read [its maunal](https://github.com/dalance/svlint/blob/master/MANUAL.md).
+For more `svlint` usage, please `svlint --help` in your command line, or read [its maunal](https://github.com/dalance/svlint/blob/master/MANUAL.md).
+Note that not all the `svlint` options are supported by this extension. Only the options listed below are allowed.
+
+```log
+svlint v0.8.0 rev:b9010664 rustc:1.70.0 built:2023-06-26T09:53:23
+
+USAGE:
+    svlint [OPTIONS] [--] [FILES]...
+
+OPTIONS:
+    -c, --config <CONFIG>
+            TOML configuration file [default: .svlint.toml]
+
+    -d, --define <DEFINES>
+            Define
+
+    -f, --filelist <FILELIST>
+            File list
+
+    -i, --include <INCLUDES>
+            Include directory path
+
+        --ignore-include
+            Ignore any include
+
+    -p, --plugin <PLUGINS>
+            Plugin file
+```
 
 ## Inspiration & Contribution
 
